@@ -431,6 +431,47 @@ namespace Azure.Communication.CallingServer.Tests
             Assert.AreEqual(200, response.Status);
         }
         #endregion Snippet:Azure_Communication_ServerCalling_Tests_ResumeParticipantOperation
+
+        #region Snippet:Azure_Communication_ServerCalling_Tests_KeepAliveOperation
+        internal async Task KeepAliveOperation(CallConnection callConnection)
+        {
+            Console.WriteLine("Performing keep alive operation");
+
+            var response = await callConnection.KeepAliveAsync().ConfigureAwait(false);
+
+            Assert.AreEqual(200, response.Status);
+        }
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_KeepAliveOperation
+
+        #region Snippet:Azure_Communication_ServerCalling_Tests_TransferCallOperation
+        internal async Task TransferCallOperation(CallConnection callConnection, string targetParticipant, string targetCallConnectionId, string userToUserInformation)
+        {
+            Console.WriteLine("Performing transfer call operation to transfer a call");
+
+            var response = await callConnection.TransferAsync(new CommunicationUserIdentifier(targetParticipant), targetCallConnectionId, userToUserInformation).ConfigureAwait(false);
+
+            Assert.AreEqual(response.Value.Status, CallingOperationStatus.Running);
+        }
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_TransferCallOperation
+
+        #region Snippet:Azure_Communication_ServerCalling_Tests_PlayAudioOperation
+        internal async Task PlayAudioToParticipantOperation(CallConnection callConnection, string participantUserId)
+        {
+            var playAudioOptions = new PlayAudioOptions()
+            {
+                OperationContext = "de346f03-7f8d-41ab-a232-cc5e14990769",
+                Loop = false,
+                AudioFileId = "ebb1d98d-fd86-4204-800c-f7bdfc2e515c",
+                CallbackUri = new Uri(TestEnvironment.AppCallbackUrl)
+            };
+
+            Console.WriteLine("Performing PlayAudio operation");
+
+            var response = await callConnection.PlayAudioToParticipantAsync(new CommunicationUserIdentifier(participantUserId), new Uri(TestEnvironment.AudioFileUrl), playAudioOptions).ConfigureAwait(false);
+
+            Assert.AreEqual(response.Value.Status, CallingOperationStatus.Running);
+        }
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_TransferCallOperation
         #endregion Api operation functions
 
         #region Support functions
