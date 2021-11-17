@@ -361,6 +361,76 @@ namespace Azure.Communication.CallingServer.Tests
             Assert.AreEqual(202, response.Status);
         }
         #endregion Snippet:Azure_Communication_ServerCalling_Tests_RemoveParticipantOperation
+
+        #region Snippet:Azure_Communication_ServerCalling_Tests_MuteParticipantOperation
+        internal async Task MuteParticipantOperation(CallConnection callConnection, string participantUserId)
+        {
+            Console.WriteLine("Performing mute participant operation to mute a participant");
+
+            var response = await callConnection.MuteParticipantAsync(new CommunicationUserIdentifier(participantUserId)).ConfigureAwait(false);
+
+            Assert.AreEqual(200, response.Status);
+        }
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_MuteParticipantOperation
+
+        #region Snippet:Azure_Communication_ServerCalling_Tests_UnmuteParticipantOperation
+        internal async Task UnmuteParticipantOperation(CallConnection callConnection, string participantUserId)
+        {
+            Console.WriteLine("Performing unmute participant operation to unmute a participant");
+
+            var response = await callConnection.UnmuteParticipantAsync(new CommunicationUserIdentifier(participantUserId)).ConfigureAwait(false);
+
+            Assert.AreEqual(200, response.Status);
+        }
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_UnmuteParticipantOperation
+
+        #region Snippet:Azure_Communication_ServerCalling_Tests_GetParticipantOperation
+        internal async Task<IEnumerable<CallParticipant>> GetParticipantOperation(CallConnection callConnection, string participantUserId)
+        {
+            Console.WriteLine("Performing get participant operation to get a participant");
+
+            var response = await callConnection.GetParticipantAsync(new CommunicationUserIdentifier(participantUserId)).ConfigureAwait(false);
+
+            Assert.IsFalse(string.IsNullOrWhiteSpace(response.Value.ToString()));
+
+            return response.Value;
+        }
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_GetParticipantOperation
+
+        #region Snippet:Azure_Communication_ServerCalling_Tests_GetParticipantsOperation
+        internal async Task<IEnumerable<CallParticipant>> GetParticipantsOperation(CallConnection callConnection)
+        {
+            Console.WriteLine("Performing get participants operation to get participants");
+
+            var response = await callConnection.GetParticipantsAsync().ConfigureAwait(false);
+
+            Assert.IsFalse(string.IsNullOrWhiteSpace(response.Value.ToString()));
+
+            return response.Value;
+        }
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_GetParticipantsOperation
+
+        #region Snippet:Azure_Communication_ServerCalling_Tests_HoldParticipantOperation
+        internal async Task HoldParticipantOperation(CallConnection callConnection, string participantUserId)
+        {
+            Console.WriteLine("Performing hold participant operation to hold a participant");
+
+            var response = await callConnection.HoldParticipantMeetingAudioAsync(new CommunicationUserIdentifier(participantUserId)).ConfigureAwait(false);
+
+            Assert.AreEqual(200, response.Status);
+        }
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_HoldParticipantOperation
+
+        #region Snippet:Azure_Communication_ServerCalling_Tests_ResumeParticipantOperation
+        internal async Task ResumeParticipantOperation(CallConnection callConnection, string participantUserId)
+        {
+            Console.WriteLine("Performing resume participant operation to resume a participant");
+
+            var response = await callConnection.ResumeParticipantMeetingAudioAsync(new CommunicationUserIdentifier(participantUserId)).ConfigureAwait(false);
+
+            Assert.AreEqual(200, response.Status);
+        }
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_ResumeParticipantOperation
         #endregion Api operation functions
 
         #region Support functions
