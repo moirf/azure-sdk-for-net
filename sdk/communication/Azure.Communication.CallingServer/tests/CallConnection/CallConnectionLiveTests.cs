@@ -279,13 +279,15 @@ namespace Azure.Communication.CallingServer.Tests
 
             try
             {
-                string userId = "8:acs:ab12b0ea-85ea-4f83-b0b6-84d90209c7c4_0000000d-cc09-e0bb-b4f1-9c3a0d00310b";
-                string targetCallConnectionId = "6f10330e-8262-497c-9be0-4ede383b7e3e";
+                string targetParticipant = "8:acs:ab12b0ea-85ea-4f83-b0b6-84d90209c7c4_0000000d-d1a8-26f5-9806-113a0d00793a";
+                string targetCallConnectionId = "93201300-f235-454d-8f98-353010fbf337";
                 string userToUserInformation = "";
 
-                // Check Keep Alive
+                // Check Transfer Call
                 await SleepIfNotInPlaybackModeAsync().ConfigureAwait(false);
-                await TransferCallOperation(callConnection, userId, targetCallConnectionId, userToUserInformation).ConfigureAwait(false);
+                var transfer = await TransferCallOperation(callConnection, targetParticipant, targetCallConnectionId, userToUserInformation).ConfigureAwait(false);
+
+                Assert.IsTrue(transfer.GetRawResponse().ReasonPhrase == "Accepted");
             }
             catch (RequestFailedException ex)
             {
@@ -318,7 +320,7 @@ namespace Azure.Communication.CallingServer.Tests
 
             try
             {
-                string userId = "8:acs:ab12b0ea-85ea-4f83-b0b6-84d90209c7c4_0000000d-cc09-e0bb-b4f1-9c3a0d00310b";
+                string userId = "8:acs:ab12b0ea-85ea-4f83-b0b6-84d90209c7c4_0000000d-d12b-16c7-0cf9-9c3a0d00694f";
 
                 // Add Participant
                 await SleepIfNotInPlaybackModeAsync().ConfigureAwait(false);

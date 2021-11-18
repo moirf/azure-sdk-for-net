@@ -1,0 +1,47 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://acstelephonyportaltesting.communication.azure.com/calling/recordings?api-version=2021-11-15-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Authorization": "Sanitized",
+        "Content-Length": "276",
+        "Content-Type": "application/json",
+        "traceparent": "00-81107c5e6481dc48b42ec3549f9673cb-3c7182dce71cdf43-00",
+        "User-Agent": "azsdk-net-Communication.CallingServer/1.0.0-alpha.20211118.1 (.NET Framework 4.8.4420.0; Microsoft Windows 10.0.22000 )",
+        "x-ms-client-request-id": "65d590711c981067ca1f90c43c32c310",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Thu, 18 Nov 2021 11:18:52 GMT",
+        "x-ms-return-client-request-id": "true"
+      },
+      "RequestBody": {
+        "callLocator": {
+          "groupCallId": "aHR0cHM6Ly9jb252LXVzd2UtMDkuY29udi5za3lwZS5jb20vY29udi9EZVF2WEJGVVlFV1NNZkFXYno2azN3P2k9MTEmZT02Mzc1NzIyMjk0Mjc0NTI4Nzk=",
+          "kind": "groupCallLocator"
+        },
+        "recordingStateCallbackUri": "https://dummy.ngrok.io/api/incident/callback?SecretKey=helloworld"
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Content-Length": "93",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 18 Nov 2021 11:18:51 GMT",
+        "X-Azure-Ref": "0mzaWYQAAAAAWbF6FM1Z3TK3RVsijt3D/REVMMDFFREdFMDUwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Microsoft-Skype-Chain-ID": "c53c4525-4f86-45c5-a0e3-000671bddef2",
+        "x-ms-client-request-id": "65d590711c981067ca1f90c43c32c310"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "8501",
+          "message": "Action is invalid when call is not in Established state"
+        }
+      }
+    }
+  ],
+  "Variables": {
+    "COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING": "endpoint=https://acstelephonyportaltesting.communication.azure.com/;accesskey=Kg==",
+    "RandomSeed": "1668959593"
+  }
+}

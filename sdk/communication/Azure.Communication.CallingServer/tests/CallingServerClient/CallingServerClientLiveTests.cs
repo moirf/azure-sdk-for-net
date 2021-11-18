@@ -158,5 +158,29 @@ namespace Azure.Communication.CallingServer.Tests
                 await CleanUpConnectionsAsync(callConnections).ConfigureAwait(false);
             }
         }
+
+        [Test]
+        public async Task RunStartRecordingFailsScenarioTests()
+        {
+            CallingServerClient callingServerClient = CreateInstrumentedCallingServerClientWithConnectionString();
+            var invalidServerCallId = "aHR0cHM6Ly9jb252LXVzd2UtMDkuY29udi5za3lwZS5jb20vY29udi9EZVF2WEJGVVlFV1NNZkFXYno2azN3P2k9MTEmZT02Mzc1NzIyMjk0Mjc0NTI4Nzk=";
+
+            try
+            {
+                var callLocator = new GroupCallLocator(invalidServerCallId);
+
+                // Start Recording
+                StartCallRecordingResult startCallRecordingResult = await callingServerClient.StartRecordingAsync(callLocator, new Uri(TestEnvironment.AppCallbackUrl)).ConfigureAwait(false);
+            }
+            catch (RequestFailedException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Assert.Pass($"Unexpected error: {ex}");
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail($"Unexpected error: {ex}");
+            }
+        }
     }
 }

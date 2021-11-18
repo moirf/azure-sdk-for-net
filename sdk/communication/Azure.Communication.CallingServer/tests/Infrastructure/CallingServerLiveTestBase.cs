@@ -444,13 +444,15 @@ namespace Azure.Communication.CallingServer.Tests
         #endregion Snippet:Azure_Communication_ServerCalling_Tests_KeepAliveOperation
 
         #region Snippet:Azure_Communication_ServerCalling_Tests_TransferCallOperation
-        internal async Task TransferCallOperation(CallConnection callConnection, string targetParticipant, string targetCallConnectionId, string userToUserInformation)
+        internal async Task<Response<TransferCallResult>> TransferCallOperation(CallConnection callConnection, string targetParticipant, string targetCallConnectionId, string userToUserInformation)
         {
             Console.WriteLine("Performing transfer call operation to transfer a call");
 
             var response = await callConnection.TransferAsync(new CommunicationUserIdentifier(targetParticipant), targetCallConnectionId, userToUserInformation).ConfigureAwait(false);
 
             Assert.AreEqual(response.Value.Status, CallingOperationStatus.Running);
+
+            return response;
         }
         #endregion Snippet:Azure_Communication_ServerCalling_Tests_TransferCallOperation
 
