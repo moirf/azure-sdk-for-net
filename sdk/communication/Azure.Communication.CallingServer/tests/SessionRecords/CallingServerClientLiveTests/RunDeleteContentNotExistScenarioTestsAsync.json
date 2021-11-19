@@ -1,0 +1,55 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://storage.asm.skype.com/v1/objects/0-eus-d3-00000000000000000000000000000000",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Authorization": "Sanitized",
+        "traceparent": "00-ae31bdd74c625b449a9479e5060d2831-8777a47f44e0dd4a-00",
+        "User-Agent": "azsdk-net-Communication.CallingServer/1.0.0-alpha.20211119.1 (.NET Framework 4.8.4420.0; Microsoft Windows 10.0.22000 )",
+        "x-ms-client-request-id": "60d0408f7097ae4bc5af3d15a1bfcde9",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Fri, 19 Nov 2021 08:34:45 GMT",
+        "x-ms-host": "acstelephonyportaltesting.communication.azure.com",
+        "x-ms-return-client-request-id": "true"
+      },
+      "RequestBody": null,
+      "StatusCode": 307,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Fri, 19 Nov 2021 08:34:45 GMT",
+        "Location": "https://eus1-storage.asm.skype.com/v1/objects/0-eus-d3-00000000000000000000000000000000",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains"
+      },
+      "ResponseBody": []
+    },
+    {
+      "RequestUri": "https://eus1-storage.asm.skype.com/v1/objects/0-eus-d3-00000000000000000000000000000000",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Authorization": "Sanitized",
+        "traceparent": "00-ae31bdd74c625b449a9479e5060d2831-8777a47f44e0dd4a-00",
+        "User-Agent": "azsdk-net-Communication.CallingServer/1.0.0-alpha.20211119.1 (.NET Framework 4.8.4420.0; Microsoft Windows 10.0.22000 )",
+        "x-ms-client-request-id": "60d0408f7097ae4bc5af3d15a1bfcde9",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Fri, 19 Nov 2021 08:34:46 GMT",
+        "x-ms-host": "acstelephonyportaltesting.communication.azure.com",
+        "x-ms-return-client-request-id": "true"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Fri, 19 Nov 2021 08:34:45 GMT",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains"
+      },
+      "ResponseBody": []
+    }
+  ],
+  "Variables": {
+    "COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING": "endpoint=https://acstelephonyportaltesting.communication.azure.com/;accesskey=Kg==",
+    "RandomSeed": "497257150"
+  }
+}

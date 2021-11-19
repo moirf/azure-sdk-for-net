@@ -84,6 +84,11 @@ namespace Azure.Communication.CallingServer.Tests
             return GROUP_IDENTIFIER;
         }
 
+        protected string GetInvalidDeleteUrl()
+        {
+            return "https://storage.asm.skype.com/v1/objects/0-eus-d3-00000000000000000000000000000000";
+        }
+
         public CallingServerLiveTestBase(bool isAsync) : base(isAsync)
             => Sanitizer = new CallingServerRecordedTestSanitizer();
 

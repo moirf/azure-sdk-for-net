@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Azure.Communication.Tests;
 using NUnit.Framework;
@@ -180,6 +181,78 @@ namespace Azure.Communication.CallingServer.Tests
             catch (Exception ex)
             {
                 Assert.Fail($"Unexpected error: {ex}");
+            }
+        }
+
+        [Test]
+        public async Task RunDeleteContentNotExistScenarioTests()
+        {
+            CallingServerClient callingServerClient = CreateInstrumentedCallingServerClientWithConnectionString();
+
+            try
+            {
+                var deleteUrl = new Uri(GetInvalidDeleteUrl());
+
+                // Delete Recording
+                var deleteResponse = await callingServerClient.DeleteRecordingAsync(deleteUrl).ConfigureAwait(false);
+            }
+            catch (RequestFailedException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Assert.Fail($"Unexpected error: {ex}");
+            }
+            catch (Exception ex)
+            {
+                Assert.Pass($"Unexpected error: {ex}");
+            }
+        }
+
+        [Test]
+        public async Task RunCreateAddGetParticipantHangupScenarioTests()
+        {
+            if (SkipCallingServerInteractionLiveTests)
+                Assert.Ignore("Skip callingserver interaction live tests flag is on.");
+
+            CallingServerClient callingServerClient = CreateInstrumentedCallingServerClientWithConnectionString();
+            var groupId = GetGroupId();
+
+            // Establish a Call
+            var callConnections = await CreateGroupCallOperation(callingServerClient, groupId, GetFromUserId(), GetToUserId(), TestEnvironment.AppCallbackUrl).ConfigureAwait(false);
+            var callLocator = new GroupCallLocator(groupId);
+
+            try
+            {
+                foreach (var callConnection in callConnections)
+                {
+                    var connection = callingServerClient.GetCallConnection(callConnection.CallConnectionId);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(connection.CallConnectionId));
+                }
+
+                string userId = GetFixedUserId("0000000d-5e6a-3252-a808-4548220003b8");
+
+                // Add Participant
+                await SleepIfNotInPlaybackModeAsync().ConfigureAwait(false);
+                AddParticipantResult addParticipantResult = await AddParticipantOperation(callingServerClient, callLocator, userId).ConfigureAwait(false);
+                Assert.NotNull(addParticipantResult);
+
+                // Remove Participant
+                await SleepIfNotInPlaybackModeAsync().ConfigureAwait(false);
+                await RemoveParticipantOperation(callingServerClient, callLocator, userId).ConfigureAwait(false);
+            }
+            catch (RequestFailedException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Assert.Fail($"Unexpected error: {ex}");
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail($"Unexpected error: {ex}");
+            }
+            finally
+            {
+                // Hang up the Call, there is one call leg in this test case, hangup the call will also delete the call as the result.
+                await SleepIfNotInPlaybackModeAsync().ConfigureAwait(false);
+                await CleanUpConnectionsAsync(callConnections).ConfigureAwait(false);
             }
         }
     }
