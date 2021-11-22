@@ -147,7 +147,6 @@ namespace Azure.Communication.CallingServer.Tests
                 // Get Participant
                 await SleepIfNotInPlaybackModeAsync().ConfigureAwait(false);
                 var getUnmutedParticipant = await GetParticipantOperation(callConnection, userId).ConfigureAwait(false);
-                await SleepIfNotInPlaybackModeAsync().ConfigureAwait(false);
 
                 foreach (var participant in getUnmutedParticipant)
                 {
@@ -200,6 +199,11 @@ namespace Azure.Communication.CallingServer.Tests
                 await SleepIfNotInPlaybackModeAsync().ConfigureAwait(false);
                 AddParticipantResult addParticipantResult = await AddParticipantOperation(callConnection, userId).ConfigureAwait(false);
                 Assert.NotNull(addParticipantResult);
+
+                // Get Call
+                await SleepIfNotInPlaybackModeAsync().ConfigureAwait(false);
+                var getCallConnection = await GetCallOperation(callConnection).ConfigureAwait(false);
+                Assert.AreEqual(getCallConnection.CallConnectionId, callConnection.Value.CallConnectionId);
 
                 // Hold Participant
                 await SleepIfNotInPlaybackModeAsync().ConfigureAwait(false);
@@ -288,52 +292,6 @@ namespace Azure.Communication.CallingServer.Tests
                 var transfer = await TransferCallOperation(callConnection, targetParticipant, targetCallConnectionId, userToUserInformation).ConfigureAwait(false);
 
                 Assert.IsTrue(transfer.GetRawResponse().ReasonPhrase == "Accepted");
-            }
-            catch (RequestFailedException ex)
-            {
-                Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
-            }
-            finally
-            {
-                // Hang up the Call, there is one call leg in this test case, hangup the call will also delete the call as the result.
-                await SleepIfNotInPlaybackModeAsync().ConfigureAwait(false);
-                await HangupOperation(callConnection).ConfigureAwait(false);
-            }
-        }
-
-        [Test]
-        public async Task RunCreateAddPlayAudioToParticipantRemoveHangupScenarioTests()
-        {
-            if (SkipCallingServerInteractionLiveTests)
-                Assert.Ignore("Skip callingserver interaction live tests flag is on.");
-
-            CallingServerClient client = CreateInstrumentedCallingServerClientWithConnectionString();
-
-            // Establish a call
-            var callConnection = await CreateCallConnectionOperation(client).ConfigureAwait(false);
-
-            try
-            {
-                string userId = "8:acs:ab12b0ea-85ea-4f83-b0b6-84d90209c7c4_0000000d-d12b-16c7-0cf9-9c3a0d00694f";
-
-                // Add Participant
-                await SleepIfNotInPlaybackModeAsync().ConfigureAwait(false);
-                AddParticipantResult addParticipantResult = await AddParticipantOperation(callConnection, userId).ConfigureAwait(false);
-                Assert.NotNull(addParticipantResult);
-
-                // Mute Participant
-                await SleepIfNotInPlaybackModeAsync().ConfigureAwait(false);
-                await PlayAudioToParticipantOperation(callConnection, userId).ConfigureAwait(false);
-
-                // Remove Participant
-                await SleepIfNotInPlaybackModeAsync().ConfigureAwait(false);
-                await RemoveParticipantOperation(callConnection, userId).ConfigureAwait(false);
             }
             catch (RequestFailedException ex)
             {

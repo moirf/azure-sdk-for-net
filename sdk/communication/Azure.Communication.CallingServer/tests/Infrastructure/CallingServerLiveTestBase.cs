@@ -249,7 +249,7 @@ namespace Azure.Communication.CallingServer.Tests
             Assert.AreEqual(response.Value.Status, CallingOperationStatus.Running);
         }
 
-        internal async Task PlayAudioOperation(CallingServerClient callingServerClient, CallLocator callLocator)
+        internal async Task<PlayAudioResult> PlayAudioOperation(CallingServerClient callingServerClient, CallLocator callLocator)
         {
             Console.WriteLine("Performing PlayAudio operation");
 
@@ -265,6 +265,8 @@ namespace Azure.Communication.CallingServer.Tests
                 }).ConfigureAwait(false);
 
             Assert.AreEqual(response.Value.Status, CallingOperationStatus.Running);
+
+            return response.Value;
         }
         #endregion Snippet:Azure_Communication_ServerCalling_Tests_PlayAudioOperation
 
@@ -461,8 +463,8 @@ namespace Azure.Communication.CallingServer.Tests
         }
         #endregion Snippet:Azure_Communication_ServerCalling_Tests_TransferCallOperation
 
-        #region Snippet:Azure_Communication_ServerCalling_Tests_PlayAudioOperation
-        internal async Task PlayAudioToParticipantOperation(CallConnection callConnection, string participantUserId)
+        #region Snippet:Azure_Communication_ServerCalling_Tests_PlayAudioToParticipantOperation
+        internal async Task<PlayAudioResult> PlayAudioToParticipantOperation(CallConnection callConnection, string participantUserId)
         {
             var playAudioOptions = new PlayAudioOptions()
             {
@@ -477,8 +479,73 @@ namespace Azure.Communication.CallingServer.Tests
             var response = await callConnection.PlayAudioToParticipantAsync(new CommunicationUserIdentifier(participantUserId), new Uri(TestEnvironment.AudioFileUrl), playAudioOptions).ConfigureAwait(false);
 
             Assert.AreEqual(response.Value.Status, CallingOperationStatus.Running);
+
+            return response.Value;
         }
-        #endregion Snippet:Azure_Communication_ServerCalling_Tests_TransferCallOperation
+
+        internal async Task<PlayAudioResult> PlayAudioToParticipantOperation(CallingServerClient callingServerClient, CallLocator callLocator, string participantUserId)
+        {
+            var playAudioOptions = new PlayAudioOptions()
+            {
+                OperationContext = "de346f03-7f8d-41ab-a232-cc5e14990769",
+                Loop = true,
+                AudioFileId = "ebb1d98d-fd86-4204-800c-f7bdfc2e515c",
+                CallbackUri = new Uri(TestEnvironment.AppCallbackUrl)
+            };
+
+            Console.WriteLine("Performing PlayAudio operation");
+
+            var response = await callingServerClient.PlayAudioToParticipantAsync(callLocator, new CommunicationUserIdentifier(participantUserId), new Uri(TestEnvironment.AudioFileUrl), playAudioOptions).ConfigureAwait(false);
+
+            Assert.AreEqual(response.Value.Status, CallingOperationStatus.Running);
+
+            return response.Value;
+        }
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_PlayAudioToParticipantOperation
+
+        #region Snippet:Azure_Communication_ServerCalling_Tests_CancelParticipantMediaOperation
+        internal async Task CancelParticipantMediaOperation(CallConnection callConnection, string participantUserId, string mediaOperationId)
+        {
+            Console.WriteLine("Performing Cancel Participant Media operation");
+
+            var response = await callConnection.CancelParticipantMediaOperationAsync(new CommunicationUserIdentifier(participantUserId), mediaOperationId).ConfigureAwait(false);
+
+            Assert.AreEqual(200, response.Status);
+        }
+
+        internal async Task CancelParticipantMediaOperation(CallingServerClient callingServerClient, CallLocator callLocator, string participantUserId, string mediaOperationId)
+        {
+            Console.WriteLine("Performing Cancel Participant Media operation");
+
+            var response = await callingServerClient.CancelParticipantMediaOperationAsync(callLocator, new CommunicationUserIdentifier(participantUserId), mediaOperationId).ConfigureAwait(false);
+
+            Assert.AreEqual(200, response.Status);
+        }
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_CancelParticipantMediaOperation
+
+        #region Snippet:Azure_Communication_ServerCalling_Tests_CancelMediaOperation
+        internal async Task CancelMediaOperation(CallingServerClient callingServerClient, CallLocator callLocator, string mediaOperationId)
+        {
+            Console.WriteLine("Performing Cancel Media operation");
+
+            var response = await callingServerClient.CancelMediaOperationAsync(callLocator, mediaOperationId).ConfigureAwait(false);
+
+            Assert.AreEqual(200, response.Status);
+        }
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_CancelMediaOperation
+
+        #region Snippet:Azure_Communication_ServerCalling_Tests_GetCallOperation
+        internal async Task<CallConnectionProperties> GetCallOperation(CallConnection callConnection)
+        {
+            Console.WriteLine("Performing get call operation");
+
+            var response = await callConnection.GetCallAsync().ConfigureAwait(false);
+
+            Assert.IsFalse(string.IsNullOrWhiteSpace(response.Value.ToString()));
+
+            return response.Value;
+        }
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_GetCallOperation
         #endregion Api operation functions
 
         #region Support functions
