@@ -575,53 +575,61 @@ namespace Azure.Communication.CallingServer.Tests
         }
         #endregion Snippet:Azure_Communication_ServerCalling_Tests_CancelParticipantMediaOperation
 
-        #region Snippet:Azure_Communication_ServerCalling_Tests_CreateAudioRoutingGroupOperation
-        internal async Task<CreateAudioRoutingGroupResult> CreateAudioRoutingGroupOperation(CallConnection callConnection, List<CommunicationUserIdentifier> participantUserId)
+        #region Snippet:Azure_Communication_ServerCalling_Tests_CancelMediaOperation
+        internal async Task CancelMediaOperation(CallingServerClient callingServerClient, CallLocator callLocator, string mediaOperationId)
         {
-            Console.WriteLine("Performing Create Audio Routing Group operation");
+            Console.WriteLine("Performing Cancel Media operation");
 
-            var response = await callConnection.CreateAudioRoutingGroupAsync(AudioRoutingMode.Multicast, participantUserId).ConfigureAwait(false);
+            var response = await callingServerClient.CancelMediaOperationAsync(callLocator, mediaOperationId).ConfigureAwait(false);
+
+            Assert.AreEqual(200, response.Status);
+        }
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_CancelMediaOperation
+
+        #region Snippet:Azure_Communication_ServerCalling_Tests_AnswerCallOperation
+
+        internal async Task<CallConnection> AnswerCallOperation(CallingServerClient callingServerClient)
+        {
+            Console.WriteLine("Performing Answer Call Operation");
+
+            string incomingCallContext = "26fda345-3b5a-4159-b86b-260decaef2ac";
+
+            var response = await callingServerClient.AnswerCallAsync(incomingCallContext, new List<CallMediaType> { CallMediaType.Audio },
+                    new List<CallingEventSubscriptionType> { CallingEventSubscriptionType.ParticipantsUpdated }, new Uri(TestEnvironment.AppCallbackUrl)).ConfigureAwait(false);
 
             Assert.IsFalse(string.IsNullOrWhiteSpace(response.Value.ToString()));
 
             return response.Value;
         }
-        #endregion Snippet:Azure_Communication_ServerCalling_Tests_CreateAudioRoutingGroupOperation
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_AnswerCallOperation
 
-        #region Snippet:Azure_Communication_ServerCalling_Tests_GetAudioRoutingGroupOperation
-        internal async Task<AudioRoutingGroupResult> GetAudioRoutingGroupOperation(CallConnection callConnection, string audioRoutingGroupId)
+        #region Snippet:Azure_Communication_ServerCalling_Tests_RejectCallOperation
+
+        internal async Task RejectCallOperation(CallingServerClient callingServerClient)
         {
-            Console.WriteLine("Performing Get Audio Routing Group operation");
+            Console.WriteLine("Performing Reject Call Operation");
 
-            var response = await callConnection.GetAudioRoutingGroupsAsync(audioRoutingGroupId).ConfigureAwait(false);
+            string incomingCallContext = "26fda345-3b5a-4159-b86b-260decaef2ac";
 
-            Assert.IsFalse(string.IsNullOrWhiteSpace(response.Value.ToString()));
-
-            return response.Value;
-        }
-        #endregion Snippet:Azure_Communication_ServerCalling_Tests_GetAudioRoutingGroupOperation
-
-        #region Snippet:Azure_Communication_ServerCalling_Tests_UpdateAudioRoutingGroupOperation
-        internal async Task UpdateAudioRoutingGroupOperation(CallConnection callConnection, string audioRoutingGroupId, List<CommunicationUserIdentifier> participantUserId)
-        {
-            Console.WriteLine("Performing Update Audio Routing Group operation");
-
-            var response = await callConnection.UpdateAudioRoutingGroupAsync(audioRoutingGroupId, participantUserId).ConfigureAwait(false);
+            var response = await callingServerClient.RejectCallAsync(incomingCallContext, CallRejectReason.None).ConfigureAwait(false);
 
             Assert.AreEqual(200, response.Status);
         }
-        #endregion Snippet:Azure_Communication_ServerCalling_Tests_UpdateAudioRoutingGroupOperation
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_RejectCallOperation
 
-        #region Snippet:Azure_Communication_ServerCalling_Tests_DeleteAudioRoutingGroupOperation
-        internal async Task DeleteAudioRoutingGroupOperation(CallConnection callConnection, string audioRoutingGroupId)
+        #region Snippet:Azure_Communication_ServerCalling_Tests_RedirectCallOperation
+
+        internal async Task RedirectCallOperation(CallingServerClient callingServerClient, string target)
         {
-            Console.WriteLine("Performing Delete Audio Routing Group operation");
+            Console.WriteLine("Performing Redirect Call Operation");
 
-            var response = await callConnection.DeleteAudioRoutingGroupAsync(audioRoutingGroupId).ConfigureAwait(false);
+            string incomingCallContext = "26fda345-3b5a-4159-b86b-260decaef2ac";
+
+            var response = await callingServerClient.RedirectCallAsync(incomingCallContext, new CommunicationUserIdentifier(target)).ConfigureAwait(false);
 
             Assert.AreEqual(200, response.Status);
         }
-        #endregion Snippet:Azure_Communication_ServerCalling_Tests_DeleteAudioRoutingGroupOperation
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_RedirectCallOperation
         #endregion Api operation functions
 
         #region Support functions
