@@ -1,0 +1,40 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://us-storage.asm.skype.com/v1/objects/0-wus-d6-c0d12530c8d041e0080e085aa12706ba/content/acsmetadata",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Authorization": "Sanitized",
+        "Range": "bytes=0-268435455",
+        "traceparent": "00-268d21f4ed9543438cc9183b122ea367-449596624fa70d49-00",
+        "User-Agent": "azsdk-net-Communication.CallingServer/1.0.0-alpha.20211126.1 (.NET Framework 4.8.4420.0; Microsoft Windows 10.0.22000 )",
+        "x-ms-client-request-id": "f83f2a3361239b4fee64470383d9bf04",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Fri, 26 Nov 2021 10:11:37 GMT",
+        "x-ms-host": "acstelephonyportaltesting.communication.azure.com",
+        "x-ms-return-client-request-id": "true"
+      },
+      "RequestBody": null,
+      "StatusCode": 206,
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "no-cache",
+          "max-age=0",
+          "s-maxage=0",
+          "private"
+        ],
+        "Content-Length": "838",
+        "Content-Range": "bytes 0-837/838",
+        "Content-Type": "application/octet-stream",
+        "Date": "Fri, 26 Nov 2021 10:11:37 GMT",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains"
+      },
+      "ResponseBody": "ew0KICAicmVzb3VyY2VJZCI6ICJhYjEyYjBlYS04NWVhLTRmODMtYjBiNi04NGQ5MDIwOWM3YzQiLA0KICAiY2FsbElkIjogImEwODRlMTViLTY4ZmYtNGUwMi05Y2Q1LWUxYWNlNjUyZTdmZiIsDQogICJjaHVua0RvY3VtZW50SWQiOiAiMC13dXMtZDYtYzBkMTI1MzBjOGQwNDFlMDA4MGUwODVhYTEyNzA2YmEiLA0KICAiY2h1bmtJbmRleCI6IDAsDQogICJjaHVua1N0YXJ0VGltZSI6ICIyMDIxLTExLTI2VDA3OjM4OjA5LjY2OTA3MjZaIiwNCiAgImNodW5rRHVyYXRpb24iOiAxMDkwMC4wLA0KICAicGF1c2VSZXN1bWVJbnRlcnZhbHMiOiBbXSwNCiAgInJlY29yZGluZ0luZm8iOiB7DQogICAgImNvbnRlbnRUeXBlIjogImF1ZGlvVmlkZW8iLA0KICAgICJjaGFubmVsVHlwZSI6ICJtaXhlZCIsDQogICAgImZvcm1hdCI6ICJtcDQiLA0KICAgICJhdWRpb0NvbmZpZ3VyYXRpb24iOiB7DQogICAgICAic2FtcGxlUmF0ZSI6IDE2MDAwLA0KICAgICAgImJpdFJhdGUiOiAxMjgwMDAsDQogICAgICAiY2hhbm5lbHMiOiAxDQogICAgfSwNCiAgICAidmlkZW9Db25maWd1cmF0aW9uIjogew0KICAgICAgImxvbmdlclNpZGVMZW5ndGgiOiAxOTIwLA0KICAgICAgInNob3J0ZXJTaWRlTGVuZ3RoIjogMTA4MCwNCiAgICAgICJmcmFtZXJhdGUiOiAxNSwNCiAgICAgICJiaXRSYXRlIjogMTAwMDAwMA0KICAgIH0NCiAgfSwNCiAgInBhcnRpY2lwYW50cyI6IFsNCiAgICB7DQogICAgICAicGFydGljaXBhbnRJZCI6ICI4OmFjczphYjEyYjBlYS04NWVhLTRmODMtYjBiNi04NGQ5MDIwOWM3YzRfMDAwMDAwMGQtZmIwZi0zMzBlLWRlZmQtOGIzYTBkMDAyNTQwIg0KICAgIH0NCiAgXQ0KfQ=="
+    }
+  ],
+  "Variables": {
+    "COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING": "endpoint=https://acstelephonyportaltesting.communication.azure.com/;accesskey=Kg==",
+    "RandomSeed": "792149808"
+  }
+}

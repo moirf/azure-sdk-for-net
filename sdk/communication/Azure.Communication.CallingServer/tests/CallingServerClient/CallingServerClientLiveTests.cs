@@ -168,12 +168,24 @@ namespace Azure.Communication.CallingServer.Tests
 
             try
             {
-                var deleteUrl = new Uri(GetDeleteUrl());
+                if (IsAsync)
+                {
+                    var deleteUrl = new Uri(GetAsyncDeleteUrl());
 
-                // Delete Recording
-                var deleteResponse = await callingServerClient.DeleteRecordingAsync(deleteUrl).ConfigureAwait(false);
-                Assert.NotNull(deleteResponse);
-                Assert.IsTrue(deleteResponse.Status == 200);
+                    // Delete Recording
+                    var deleteResponse = await callingServerClient.DeleteRecordingAsync(deleteUrl).ConfigureAwait(false);
+                    Assert.NotNull(deleteResponse);
+                    Assert.IsTrue(deleteResponse.Status == 200);
+                }
+                else
+                {
+                    var deleteUrl = new Uri(GetSyncDeleteUrl());
+
+                    // Delete Recording
+                    var deleteResponse = await callingServerClient.DeleteRecordingAsync(deleteUrl).ConfigureAwait(false);
+                    Assert.NotNull(deleteResponse);
+                    Assert.IsTrue(deleteResponse.Status == 200);
+                }
             }
             catch (RequestFailedException ex)
             {
@@ -492,6 +504,92 @@ namespace Azure.Communication.CallingServer.Tests
                 // Hang up the Call, there is one call leg in this test case, hangup the call will also delete the call as the result.
                 await SleepIfNotInPlaybackModeAsync().ConfigureAwait(false);
                 await CleanUpConnectionsAsync(callConnections).ConfigureAwait(false);
+            }
+        }
+
+        [Test]
+        public async Task RunDownloadStreamingScenarioTests()
+        {
+            CallingServerClient callingServerClient = CreateInstrumentedCallingServerClientWithConnectionString();
+
+            try
+            {
+                var downloadEndPoint = new Uri("https://us-storage.asm.skype.com/v1/objects/0-wus-d6-c0d12530c8d041e0080e085aa12706ba/content/acsmetadata");
+
+                // Download Recording
+                var downloadResponse = await callingServerClient.DownloadStreamingAsync(downloadEndPoint).ConfigureAwait(false);
+                Assert.IsTrue(downloadResponse.GetRawResponse().Status == 200);
+            }
+            catch (RequestFailedException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Assert.Fail($"Unexpected error: {ex}");
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail($"Unexpected error: {ex}");
+            }
+        }
+
+        [Test]
+        public async Task RunDownloadToStreamScenarioTests()
+        {
+            CallingServerClient callingServerClient = CreateInstrumentedCallingServerClientWithConnectionString();
+
+            try
+            {
+                var downloadEndPoint = new Uri("https://us-storage.asm.skype.com/v1/objects/0-wus-d6-c0d12530c8d041e0080e085aa12706ba/content/acsmetadata");
+                if (IsAsync)
+                {
+                    string documentId = "async";
+                    string fileFormat = "json";
+                    string filePath = ".\\" + documentId + "." + fileFormat;
+                    var downloadResponse = await callingServerClient.DownloadToAsync(downloadEndPoint, System.IO.File.Open(filePath, System.IO.FileMode.Create)).ConfigureAwait(false);
+                    Assert.NotNull(downloadResponse);
+                }
+                else
+                {
+                    string documentId = "sync";
+                    string fileFormat = "json";
+                    string filePath = ".\\" + documentId + "." + fileFormat;
+                    var downloadResponse = await callingServerClient.DownloadToAsync(downloadEndPoint, System.IO.File.Open(filePath, System.IO.FileMode.Create)).ConfigureAwait(false);
+                    Assert.NotNull(downloadResponse);
+                }
+            }
+            catch (RequestFailedException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Assert.Fail($"Unexpected error: {ex}");
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail($"Unexpected error: {ex}");
+            }
+        }
+
+        [Test]
+        public async Task RunDownloadToDestinationcenarioTests()
+        {
+            CallingServerClient callingServerClient = CreateInstrumentedCallingServerClientWithConnectionString();
+
+            try
+            {
+                var downloadEndPoint = new Uri("https://us-storage.asm.skype.com/v1/objects/0-wus-d6-c0d12530c8d041e0080e085aa12706ba/content/acsmetadata");
+                string documentId = "0-wus-d6-c0d12530c8d041e0080e085aa12706ba";
+                string fileFormat = "json";
+                string filePath = ".\\" + documentId + "." + fileFormat;
+
+                var downloadResponse = await callingServerClient.DownloadToAsync(downloadEndPoint, filePath).ConfigureAwait(false);
+                Assert.NotNull(downloadResponse);
+            }
+            catch (RequestFailedException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Assert.Fail($"Unexpected error: {ex}");
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail($"Unexpected error: {ex}");
             }
         }
     }

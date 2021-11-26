@@ -87,12 +87,17 @@ namespace Azure.Communication.CallingServer.Tests
 
         protected string GetInvalidDeleteUrl()
         {
-            return "https://storage.asm.skype.com/v1/objects/0-eus-d3-00000000000000000000000000000000";
+            return "https://us-storage.asm.skype.com/v1/objects/0-wus-d10-00000000000000000000000000000000";
         }
 
-        protected string GetDeleteUrl()
+        protected string GetSyncDeleteUrl()
         {
-            return "https://storage.asm.skype.com/v1/objects/0-eus-d1-0d72425c5c7ca05fe62e0b7c356a18d8";
+            return "https://us-storage.asm.skype.com/v1/objects/0-wus-d10-e47812f286263a1c0c7f83d08e7a4744";
+        }
+
+        protected string GetAsyncDeleteUrl()
+        {
+            return "https://us-storage.asm.skype.com/v1/objects/0-wus-d10-ec6c97766159ccebd22c005571727a15";
         }
 
         public CallingServerLiveTestBase(bool isAsync) : base(isAsync)
