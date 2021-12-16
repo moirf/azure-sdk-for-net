@@ -133,7 +133,7 @@ namespace Azure.Communication.CallingServer.Tests
             try
             {
                 var callLocator = new GroupCallLocator(groupId);
-                string userId = GetFixedUserId(TestEnvironment.UserIdentifier);
+                string userId = GetFixedUserId("0000000e-6166-a217-80f5-8b3a0d0080c4");
 
                 // Add Participant
                 AddParticipantResult addParticipantResult = await AddParticipantOperation(callingServerClient, callLocator, userId).ConfigureAwait(false);
@@ -242,7 +242,7 @@ namespace Azure.Communication.CallingServer.Tests
                     Assert.IsFalse(string.IsNullOrWhiteSpace(getCallConnection.CallConnectionId));
                 }
 
-                string userId = GetFixedUserId(TestEnvironment.UserIdentifier);
+                string userId = GetFixedUserId("0000000e-6166-a217-80f5-8b3a0d0080c4");
 
                 // Add Participant
                 AddParticipantResult addParticipantResult = await AddParticipantOperation(callingServerClient, callLocator, userId).ConfigureAwait(false);
@@ -292,7 +292,7 @@ namespace Azure.Communication.CallingServer.Tests
             try
             {
                 var callLocator = new GroupCallLocator(groupId);
-                string userId = GetFixedUserId(TestEnvironment.UserIdentifier);
+                string userId = GetFixedUserId("0000000e-6166-a217-80f5-8b3a0d0080c4");
 
                 // Add Participant
                 AddParticipantResult addParticipantResult = await AddParticipantOperation(callingServerClient, callLocator, userId).ConfigureAwait(false);
@@ -301,10 +301,10 @@ namespace Azure.Communication.CallingServer.Tests
 
                 // Play Audio To Participant
                 var playAudioResult = await PlayAudioToParticipantOperation(callingServerClient, callLocator, userId).ConfigureAwait(false);
+                string mediaOperationId = playAudioResult.OperationId;
                 await WaitForOperationCompletion().ConfigureAwait(false);
 
                 // Cancel Participant Media Operation
-                string mediaOperationId = playAudioResult.OperationId;
                 await CancelParticipantMediaOperation(callingServerClient, callLocator, userId, mediaOperationId).ConfigureAwait(false);
 
                 // Remove Participant
@@ -381,7 +381,7 @@ namespace Azure.Communication.CallingServer.Tests
             try
             {
                 var callLocator = new GroupCallLocator(groupId);
-                string userId = GetFixedUserId(TestEnvironment.UserIdentifier);
+                string userId = GetFixedUserId("0000000e-6166-a217-80f5-8b3a0d0080c4");
 
                 // Add Participant
                 AddParticipantResult addParticipantResult = await AddParticipantOperation(callingServerClient, callLocator, userId).ConfigureAwait(false);
@@ -432,7 +432,7 @@ namespace Azure.Communication.CallingServer.Tests
             try
             {
                 var callLocator = new GroupCallLocator(groupId);
-                string userId = GetFixedUserId(TestEnvironment.UserIdentifier);
+                string userId = GetFixedUserId("0000000e-6166-a217-80f5-8b3a0d0080c4");
 
                 // Add Participant
                 AddParticipantResult addParticipantResult = await AddParticipantOperation(callingServerClient, callLocator, userId).ConfigureAwait(false);
@@ -474,7 +474,7 @@ namespace Azure.Communication.CallingServer.Tests
 
             try
             {
-                string userId = GetFixedUserId(TestEnvironment.UserIdentifier);
+                string userId = GetFixedUserId("0000000e-6166-a217-80f5-8b3a0d0080c4");
 
                 // Redirect Call
                 await RedirectCallOperation(callingServerClient, userId).ConfigureAwait(false);

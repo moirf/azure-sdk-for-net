@@ -29,29 +29,14 @@ namespace Azure.Communication.CallingServer.Tests
         // Random Gen Guid
         protected const string GROUP_IDENTIFIER = "0000000e-385d-f003-0cf9-9c3a0d00224e";
 
-        // Random Gen Guid
-        protected const string USER_IDENTIFIER = "0000000e-3321-ffd1-69ff-9c3a0d000f47";
-
-        protected const string DOWNLOAD_END_POINT = "https://us-storage.asm.skype.com/v1/objects/Sanitized/content/acsmetadata";
-
-        protected const string DELETE_END_POINT = "https://us-storage.asm.skype.com/v1/objects/Sanitized";
-
         protected string GetAudioFileUrl()
         {
-            if (Mode != RecordedTestMode.Playback)
-            {
-                return TestEnvironment.AudioFileUri;
-            }
-            return TestEnvironment.AudioFileUrl;
+            return "https://acsfunctionappstorage.blob.core.windows.net/acs-audio-files/sample-message.wav";
         }
 
         protected string GetDownloadEndPointUrl()
         {
-            if (Mode != RecordedTestMode.Playback)
-            {
-                return TestEnvironment.DownloadEndPoint;
-            }
-            return DOWNLOAD_END_POINT;
+            return "https://us-storage.asm.skype.com/v1/objects/0-wus-d8-99b867bd0c3f48c32fe2ddc8aa2e4125/content/acsmetadata";
         }
 
         protected string GetResourceId()
@@ -70,11 +55,7 @@ namespace Azure.Communication.CallingServer.Tests
 
         protected string GetFixedUserId(string userGuid)
         {
-            if (Mode != RecordedTestMode.Playback)
-            {
-                return "8:acs:" + GetResourceId() + "_" + userGuid;
-            }
-            return "8:acs:" + GetResourceId() + "_" + USER_IDENTIFIER;
+            return "8:acs:" + GetResourceId() + "_" + userGuid;
         }
 
         protected string GetFromUserId()
@@ -121,20 +102,12 @@ namespace Azure.Communication.CallingServer.Tests
 
         protected string GetDeleteUrl()
         {
-            if (Mode != RecordedTestMode.Playback)
-            {
-                return TestEnvironment.DeleteEndPoint;
-            }
-            return DELETE_END_POINT;
+            return "https://us-storage.asm.skype.com/v1/objects/0-wus-d3-416391754a6da60e4861809e301d5ac8";
         }
 
         protected string GetAsyncDeleteUrl()
         {
-            if (Mode != RecordedTestMode.Playback)
-            {
-                return TestEnvironment.AsyncDeleteEndPoint;
-            }
-            return DELETE_END_POINT;
+            return "https://us-storage.asm.skype.com/v1/objects/0-wus-d10-182f0234aded83837acb3324f1989c03";
         }
 
         public CallingServerLiveTestBase(bool isAsync) : base(isAsync)
@@ -417,32 +390,32 @@ namespace Azure.Communication.CallingServer.Tests
         }
         #endregion Snippet:Azure_Communication_ServerCalling_Tests_RemoveParticipantOperation
 
-        #region Snippet:Azure_Communication_ServerCalling_Tests_MuteParticipantOperation
-        internal async Task MuteParticipantOperation(CallConnection callConnection, string participantUserId)
+        #region Snippet:Azure_Communication_ServerCalling_Tests_MuteParticipant
+        internal async Task MuteParticipant(CallConnection callConnection, string participantUserId)
         {
-            Console.WriteLine("Performing mute participant operation to mute a participant");
+            Console.WriteLine("Performing mute participant to mute a participant");
 
             var response = await callConnection.MuteParticipantAsync(new CommunicationUserIdentifier(participantUserId)).ConfigureAwait(false);
 
             Assert.AreEqual(200, response.Status);
         }
-        #endregion Snippet:Azure_Communication_ServerCalling_Tests_MuteParticipantOperation
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_MuteParticipant
 
-        #region Snippet:Azure_Communication_ServerCalling_Tests_UnmuteParticipantOperation
-        internal async Task UnmuteParticipantOperation(CallConnection callConnection, string participantUserId)
+        #region Snippet:Azure_Communication_ServerCalling_Tests_UnmuteParticipant
+        internal async Task UnmuteParticipant(CallConnection callConnection, string participantUserId)
         {
-            Console.WriteLine("Performing unmute participant operation to unmute a participant");
+            Console.WriteLine("Performing unmute participant to unmute a participant");
 
             var response = await callConnection.UnmuteParticipantAsync(new CommunicationUserIdentifier(participantUserId)).ConfigureAwait(false);
 
             Assert.AreEqual(200, response.Status);
         }
-        #endregion Snippet:Azure_Communication_ServerCalling_Tests_UnmuteParticipantOperation
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_UnmuteParticipant
 
-        #region Snippet:Azure_Communication_ServerCalling_Tests_GetParticipantOperation
-        internal async Task<CallParticipant> GetParticipantOperation(CallConnection callConnection, string participantUserId)
+        #region Snippet:Azure_Communication_ServerCalling_Tests_GetParticipant
+        internal async Task<CallParticipant> GetParticipant(CallConnection callConnection, string participantUserId)
         {
-            Console.WriteLine("Performing get participant operation to get a participant");
+            Console.WriteLine("Performing get participant to get a participant");
 
             var response = await callConnection.GetParticipantAsync(new CommunicationUserIdentifier(participantUserId)).ConfigureAwait(false);
 
@@ -451,9 +424,9 @@ namespace Azure.Communication.CallingServer.Tests
             return response.Value;
         }
 
-        internal async Task<CallParticipant> GetParticipantOperation(CallingServerClient callingServerClient, CallLocator callLocator, string participantUserId)
+        internal async Task<CallParticipant> GetParticipant(CallingServerClient callingServerClient, CallLocator callLocator, string participantUserId)
         {
-            Console.WriteLine("Performing get participant operation to get a participant");
+            Console.WriteLine("Performing get participant to get a participant");
 
             var response = await callingServerClient.GetParticipantAsync(callLocator, new CommunicationUserIdentifier(participantUserId)).ConfigureAwait(false);
 
@@ -461,12 +434,12 @@ namespace Azure.Communication.CallingServer.Tests
 
             return response.Value;
         }
-        #endregion Snippet:Azure_Communication_ServerCalling_Tests_GetParticipantOperation
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_GetParticipant
 
-        #region Snippet:Azure_Communication_ServerCalling_Tests_GetParticipantsOperation
-        internal async Task<IEnumerable<CallParticipant>> GetParticipantsOperation(CallConnection callConnection)
+        #region Snippet:Azure_Communication_ServerCalling_Tests_GetParticipants
+        internal async Task<IEnumerable<CallParticipant>> GetParticipants(CallConnection callConnection)
         {
-            Console.WriteLine("Performing get participants operation to get participants");
+            Console.WriteLine("Performing get participants to get participants");
 
             var response = await callConnection.GetParticipantsAsync().ConfigureAwait(false);
 
@@ -475,9 +448,9 @@ namespace Azure.Communication.CallingServer.Tests
             return response.Value;
         }
 
-        internal async Task<IEnumerable<CallParticipant>> GetParticipantsOperation(CallingServerClient callingServerClient, CallLocator callLocator)
+        internal async Task<IEnumerable<CallParticipant>> GetParticipants(CallingServerClient callingServerClient, CallLocator callLocator)
         {
-            Console.WriteLine("Performing get participants operation to get participants");
+            Console.WriteLine("Performing get participants to get participants");
 
             var response = await callingServerClient.GetParticipantsAsync(callLocator).ConfigureAwait(false);
 
@@ -485,10 +458,10 @@ namespace Azure.Communication.CallingServer.Tests
 
             return response.Value;
         }
-        #endregion Snippet:Azure_Communication_ServerCalling_Tests_GetParticipantsOperation
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_GetParticipants
 
-        #region Snippet:Azure_Communication_ServerCalling_Tests_GetCallOperation
-        internal async Task<CallConnectionProperties> GetCallOperation(CallConnection callConnection)
+        #region Snippet:Azure_Communication_ServerCalling_Tests_GetCall
+        internal async Task<CallConnectionProperties> GetCall(CallConnection callConnection)
         {
             Console.WriteLine("Performing get call operation");
 
@@ -498,32 +471,32 @@ namespace Azure.Communication.CallingServer.Tests
 
             return response.Value;
         }
-        #endregion Snippet:Azure_Communication_ServerCalling_Tests_GetCallOperation
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_GetCall
 
-        #region Snippet:Azure_Communication_ServerCalling_Tests_HoldParticipantOperation
-        internal async Task HoldParticipantOperation(CallConnection callConnection, string participantUserId)
+        #region Snippet:Azure_Communication_ServerCalling_Tests_HoldParticipant
+        internal async Task HoldParticipant(CallConnection callConnection, string participantUserId)
         {
-            Console.WriteLine("Performing hold participant operation to hold a participant");
+            Console.WriteLine("Performing hold participant to hold a participant");
 
             var response = await callConnection.HoldParticipantMeetingAudioAsync(new CommunicationUserIdentifier(participantUserId)).ConfigureAwait(false);
 
             Assert.AreEqual(200, response.Status);
         }
-        #endregion Snippet:Azure_Communication_ServerCalling_Tests_HoldParticipantOperation
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_HoldParticipant
 
-        #region Snippet:Azure_Communication_ServerCalling_Tests_ResumeParticipantOperation
-        internal async Task ResumeParticipantOperation(CallConnection callConnection, string participantUserId)
+        #region Snippet:Azure_Communication_ServerCalling_Tests_ResumeParticipant
+        internal async Task ResumeParticipant(CallConnection callConnection, string participantUserId)
         {
-            Console.WriteLine("Performing resume participant operation to resume a participant");
+            Console.WriteLine("Performing resume participant to resume a participant");
 
             var response = await callConnection.ResumeParticipantMeetingAudioAsync(new CommunicationUserIdentifier(participantUserId)).ConfigureAwait(false);
 
             Assert.AreEqual(200, response.Status);
         }
-        #endregion Snippet:Azure_Communication_ServerCalling_Tests_ResumeParticipantOperation
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_ResumeParticipant
 
-        #region Snippet:Azure_Communication_ServerCalling_Tests_KeepAliveOperation
-        internal async Task KeepAliveOperation(CallConnection callConnection)
+        #region Snippet:Azure_Communication_ServerCalling_Tests_KeepAlive
+        internal async Task KeepAlive(CallConnection callConnection)
         {
             Console.WriteLine("Performing keep alive operation");
 
@@ -531,10 +504,10 @@ namespace Azure.Communication.CallingServer.Tests
 
             Assert.AreEqual(200, response.Status);
         }
-        #endregion Snippet:Azure_Communication_ServerCalling_Tests_KeepAliveOperation
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_KeepAlive
 
-        #region Snippet:Azure_Communication_ServerCalling_Tests_DeleteCallOperation
-        internal async Task DeleteCallOperation(CallConnection callConnection)
+        #region Snippet:Azure_Communication_ServerCalling_Tests_DeleteCall
+        internal async Task DeleteCall(CallConnection callConnection)
         {
             Console.WriteLine("Performing delete call operation");
 
@@ -542,7 +515,7 @@ namespace Azure.Communication.CallingServer.Tests
 
             Assert.AreEqual(202, response.Status);
         }
-        #endregion Snippet:Azure_Communication_ServerCalling_Tests_DeleteCallOperation
+        #endregion Snippet:Azure_Communication_ServerCalling_Tests_DeleteCall
 
         #region Snippet:Azure_Communication_ServerCalling_Tests_TransferCallToParticipantOperation
         internal async Task<TransferCallResult> TransferCallToParticipantOperation(CallConnection callConnection, string targetParticipant)
