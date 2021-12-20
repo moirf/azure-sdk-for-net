@@ -57,7 +57,7 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
+                Assert.Fail($"Request failed error: {ex}");
             }
             catch (Exception ex)
             {
@@ -87,7 +87,7 @@ namespace Azure.Communication.CallingServer.Tests
                 callConnection = await CreateCallConnectionOperation(client).ConfigureAwait(false);
                 await WaitForOperationCompletion().ConfigureAwait(false);
 
-                string userId = GetFixedUserId("0000000e-6166-a217-80f5-8b3a0d0080c4");
+                string userId = GetUserId(USER_IDENTIFIER);
 
                 // Add Participant
                 AddParticipantResult addParticipantResult = await AddParticipantOperation(callConnection, userId).ConfigureAwait(false);
@@ -100,7 +100,7 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
+                Assert.Fail($"Request failed error: {ex}");
             }
             catch (Exception ex)
             {
@@ -130,7 +130,7 @@ namespace Azure.Communication.CallingServer.Tests
                 callConnection = await CreateCallConnectionOperation(client).ConfigureAwait(false);
                 await WaitForOperationCompletion().ConfigureAwait(false);
 
-                string userId = GetFixedUserId("0000000e-6166-a217-80f5-8b3a0d0080c4");
+                string userId = GetUserId(USER_IDENTIFIER);
 
                 // Add Participant
                 AddParticipantResult addParticipantResult = await AddParticipantOperation(callConnection, userId).ConfigureAwait(false);
@@ -161,7 +161,7 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
+                Assert.Fail($"Request failed error: {ex}");
             }
             catch (Exception ex)
             {
@@ -191,7 +191,7 @@ namespace Azure.Communication.CallingServer.Tests
                 callConnection = await CreateCallConnectionOperation(client).ConfigureAwait(false);
                 await WaitForOperationCompletion().ConfigureAwait(false);
 
-                string userId = GetFixedUserId("0000000e-6166-a217-80f5-8b3a0d0080c4");
+                string userId = GetUserId(USER_IDENTIFIER);
 
                 // Add Participant
                 AddParticipantResult addParticipantResult = await AddParticipantOperation(callConnection, userId).ConfigureAwait(false);
@@ -215,7 +215,7 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
+                Assert.Fail($"Request failed error: {ex}");
             }
             catch (Exception ex)
             {
@@ -252,7 +252,7 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
+                Assert.Fail($"Request failed error: {ex}");
             }
             catch (Exception ex)
             {
@@ -275,7 +275,7 @@ namespace Azure.Communication.CallingServer.Tests
                 var callConnection = await CreateCallConnectionOperation(client).ConfigureAwait(false);
                 await WaitForOperationCompletion().ConfigureAwait(false);
 
-                string targetParticipant = GetFixedUserId("0000000e-6166-a217-80f5-8b3a0d0080c4");
+                string targetParticipant = GetUserId(USER_IDENTIFIER);
 
                 // Transfer Call
                 await TransferCallToParticipantOperation(callConnection, targetParticipant).ConfigureAwait(false);
@@ -284,7 +284,7 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
+                Assert.Fail($"Request failed error: {ex}");
             }
             catch (Exception ex)
             {
@@ -294,7 +294,7 @@ namespace Azure.Communication.CallingServer.Tests
         }
 
         [Test]
-        [Ignore("Skip test as it is not working now")]
+        //[Ignore("Skip test as it is not working now")]
         public async Task RunCreateTransferCallHangupScenarioTests()
         {
             if (SkipCallingServerInteractionLiveTests)
@@ -308,7 +308,7 @@ namespace Azure.Communication.CallingServer.Tests
                 var callConnection = await CreateCallConnectionOperation(client).ConfigureAwait(false);
                 await WaitForOperationCompletion().ConfigureAwait(false);
 
-                string targetCallConnectionId = "41201300-4316-4094-b8f0-a2238937273b";
+                string targetCallConnectionId = GetTaretCallConnectionId();
 
                 // Transfer Call
                 var transferCallResult = await TransferCallOperation(callConnection, targetCallConnectionId).ConfigureAwait(false);
@@ -317,7 +317,7 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
+                Assert.Fail($"Request failed error: {ex}");
             }
             catch (Exception ex)
             {
@@ -342,7 +342,7 @@ namespace Azure.Communication.CallingServer.Tests
                 callConnection = await CreateCallConnectionOperation(client).ConfigureAwait(false);
                 await WaitForOperationCompletion().ConfigureAwait(false);
 
-                string userId = GetFixedUserId("0000000e-6166-a217-80f5-8b3a0d0080c4");
+                string userId = GetUserId(USER_IDENTIFIER);
 
                 // Add Participant
                 AddParticipantResult addParticipantResult = await AddParticipantOperation(callConnection, userId).ConfigureAwait(false);
@@ -363,7 +363,7 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
+                Assert.Fail($"Request failed error: {ex}");
             }
             catch (Exception ex)
             {
@@ -393,8 +393,8 @@ namespace Azure.Communication.CallingServer.Tests
                 callConnection = await CreateCallConnectionOperation(client).ConfigureAwait(false);
                 await WaitForOperationCompletion().ConfigureAwait(false);
 
-                string userId = GetFixedUserId("0000000e-6166-a217-80f5-8b3a0d0080c4");
-                string anotherUserId = GetFixedUserId("0000000e-6166-a436-3ef0-8b3a0d009c6d");
+                string userId = GetUserId(USER_IDENTIFIER);
+                string anotherUserId = GetUserId(ANOTHER_USER_IDENTIFIER);
 
                 // Add Participant
                 AddParticipantResult addParticipantResult = await AddParticipantOperation(callConnection, userId).ConfigureAwait(false);
@@ -443,7 +443,7 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
+                Assert.Fail($"Request failed error: {ex}");
             }
             catch (Exception ex)
             {

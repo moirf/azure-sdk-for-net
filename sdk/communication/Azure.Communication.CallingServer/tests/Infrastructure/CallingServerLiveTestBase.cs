@@ -18,25 +18,48 @@ namespace Azure.Communication.CallingServer.Tests
     public class CallingServerLiveTestBase : RecordedTestBase<CallingServerTestEnvironment>
     {
         // Random Gen Guid
-        protected const string FROM_USER_IDENTIFIER = "0000000e-2f93-1cfe-69ff-9c3a0d00d763";
+        protected const string FROM_USER_IDENTIFIER = "0000000e-77a4-bdce-80f5-8b3a0d007a16";
 
         // Random Gen Guid
-        protected const string TO_USER_IDENTIFIER = "0000000e-2f93-61fb-69ff-9c3a0d00d765";
+        protected const string TO_USER_IDENTIFIER = "0000000e-77a5-32f6-92fd-8b3a0d00f9a0";
 
         // From ACS Resource "immutableResourceId".
         protected const string RESOURCE_IDENTIFIER = "016a7064-0581-40b9-be73-6dde64d69d72";
 
         // Random Gen Guid
-        protected const string GROUP_IDENTIFIER = "0000000e-385d-f003-0cf9-9c3a0d00224e";
+        protected const string GROUP_IDENTIFIER = "0000000e-77a5-b543-92fd-8b3a0d00f9a5";
+
+        // Random Gen Guid
+        protected const string USER_IDENTIFIER = "0000000e-7616-5525-fa5d-573a0d0064d8";
+
+        // Random Gen Guid
+        protected const string ANOTHER_USER_IDENTIFIER = "0000000e-7616-8017-fa5d-573a0d0064da";
+
+        protected const string DOWNLOAD_END_POINT = "https://us-storage.asm.skype.com/v1/objects/0-wus-d8-99b867bd0c3f48c32fe2ddc8aa2e4125/content/acsmetadata";
+
+        protected const string DELETE_END_POINT = "https://us-storage.asm.skype.com/v1/objects/0-wus-d3-416391754a6da60e4861809e301d5ac8";
+
+        protected const string ASYNC_DELETE_END_POINT = "https://us-storage.asm.skype.com/v1/objects/0-wus-d10-182f0234aded83837acb3324f1989c03";
+
+        protected const string INVALID_DELETE_END_POINT = "https://us-storage.asm.skype.com/v1/objects/0-wus-d10-00000000000000000000000000000000";
+
+        protected const string AUDIO_FILE_URL = "https://acsfunctionappstorage.blob.core.windows.net/acs-audio-files/sample-message.wav";
+
+        protected const string TARGET_CALL_CONNECTION_ID = "41201300-4316-4094-b8f0-a2238937273b";
+
+        protected string GetTaretCallConnectionId()
+        {
+            return TARGET_CALL_CONNECTION_ID;
+        }
 
         protected string GetAudioFileUrl()
         {
-            return "https://acsfunctionappstorage.blob.core.windows.net/acs-audio-files/sample-message.wav";
+            return AUDIO_FILE_URL;
         }
 
         protected string GetDownloadEndPointUrl()
         {
-            return "https://us-storage.asm.skype.com/v1/objects/0-wus-d8-99b867bd0c3f48c32fe2ddc8aa2e4125/content/acsmetadata";
+            return DOWNLOAD_END_POINT;
         }
 
         protected string GetResourceId()
@@ -53,7 +76,7 @@ namespace Azure.Communication.CallingServer.Tests
             return "8:acs:" + GetResourceId() + "_" + Guid.NewGuid().ToString();
         }
 
-        protected string GetFixedUserId(string userGuid)
+        protected string GetUserId(string userGuid)
         {
             return "8:acs:" + GetResourceId() + "_" + userGuid;
         }
@@ -64,7 +87,7 @@ namespace Azure.Communication.CallingServer.Tests
             {
                 return GetRandomUserId();
             }
-            return GetFixedUserId(FROM_USER_IDENTIFIER);
+            return GetUserId(FROM_USER_IDENTIFIER);
         }
 
         protected string GetToUserId()
@@ -73,7 +96,7 @@ namespace Azure.Communication.CallingServer.Tests
             {
                 return GetRandomUserId();
             }
-            return GetFixedUserId(TO_USER_IDENTIFIER);
+            return GetUserId(TO_USER_IDENTIFIER);
         }
 
         protected string GetGroupId()
@@ -97,17 +120,17 @@ namespace Azure.Communication.CallingServer.Tests
 
         protected string GetInvalidDeleteUrl()
         {
-            return "https://us-storage.asm.skype.com/v1/objects/0-wus-d10-00000000000000000000000000000000";
+            return INVALID_DELETE_END_POINT;
         }
 
         protected string GetDeleteUrl()
         {
-            return "https://us-storage.asm.skype.com/v1/objects/0-wus-d3-416391754a6da60e4861809e301d5ac8";
+            return DELETE_END_POINT;
         }
 
         protected string GetAsyncDeleteUrl()
         {
-            return "https://us-storage.asm.skype.com/v1/objects/0-wus-d10-182f0234aded83837acb3324f1989c03";
+            return ASYNC_DELETE_END_POINT;
         }
 
         public CallingServerLiveTestBase(bool isAsync) : base(isAsync)

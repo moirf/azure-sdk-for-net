@@ -72,7 +72,7 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
+                Assert.Fail($"Request failed error: {ex}");
             }
             catch (Exception ex)
             {
@@ -104,7 +104,7 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
+                Assert.Fail($"Request failed error: {ex}");
             }
             catch (Exception ex)
             {
@@ -133,7 +133,7 @@ namespace Azure.Communication.CallingServer.Tests
             try
             {
                 var callLocator = new GroupCallLocator(groupId);
-                string userId = GetFixedUserId("0000000e-6166-a217-80f5-8b3a0d0080c4");
+                string userId = GetUserId(USER_IDENTIFIER);
 
                 // Add Participant
                 AddParticipantResult addParticipantResult = await AddParticipantOperation(callingServerClient, callLocator, userId).ConfigureAwait(false);
@@ -146,7 +146,7 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
+                Assert.Fail($"Request failed error: {ex}");
             }
             catch (Exception ex)
             {
@@ -188,7 +188,7 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
+                Assert.Fail($"Request failed error: {ex}");
             }
             catch (Exception ex)
             {
@@ -211,7 +211,7 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Pass($"Unexpected error: {ex}");
+                Assert.Pass($"Request failed error: {ex}");
             }
             catch (Exception ex)
             {
@@ -242,7 +242,7 @@ namespace Azure.Communication.CallingServer.Tests
                     Assert.IsFalse(string.IsNullOrWhiteSpace(getCallConnection.CallConnectionId));
                 }
 
-                string userId = GetFixedUserId("0000000e-6166-a217-80f5-8b3a0d0080c4");
+                string userId = GetUserId(USER_IDENTIFIER);
 
                 // Add Participant
                 AddParticipantResult addParticipantResult = await AddParticipantOperation(callingServerClient, callLocator, userId).ConfigureAwait(false);
@@ -263,7 +263,7 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
+                Assert.Fail($"Request failed error: {ex}");
             }
             catch (Exception ex)
             {
@@ -292,7 +292,7 @@ namespace Azure.Communication.CallingServer.Tests
             try
             {
                 var callLocator = new GroupCallLocator(groupId);
-                string userId = GetFixedUserId("0000000e-6166-a217-80f5-8b3a0d0080c4");
+                string userId = GetUserId(USER_IDENTIFIER);
 
                 // Add Participant
                 AddParticipantResult addParticipantResult = await AddParticipantOperation(callingServerClient, callLocator, userId).ConfigureAwait(false);
@@ -313,7 +313,7 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
+                Assert.Fail($"Request failed error: {ex}");
             }
             catch (Exception ex)
             {
@@ -351,7 +351,7 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
+                Assert.Fail($"Request failed error: {ex}");
             }
             catch (Exception ex)
             {
@@ -381,7 +381,7 @@ namespace Azure.Communication.CallingServer.Tests
             try
             {
                 var callLocator = new GroupCallLocator(groupId);
-                string userId = GetFixedUserId("0000000e-6166-a217-80f5-8b3a0d0080c4");
+                string userId = GetUserId(USER_IDENTIFIER);
 
                 // Add Participant
                 AddParticipantResult addParticipantResult = await AddParticipantOperation(callingServerClient, callLocator, userId).ConfigureAwait(false);
@@ -402,7 +402,7 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
+                Assert.Fail($"Request failed error: {ex}");
             }
             catch (Exception ex)
             {
@@ -432,7 +432,7 @@ namespace Azure.Communication.CallingServer.Tests
             try
             {
                 var callLocator = new GroupCallLocator(groupId);
-                string userId = GetFixedUserId("0000000e-6166-a217-80f5-8b3a0d0080c4");
+                string userId = GetUserId(USER_IDENTIFIER);
 
                 // Add Participant
                 AddParticipantResult addParticipantResult = await AddParticipantOperation(callingServerClient, callLocator, userId).ConfigureAwait(false);
@@ -445,7 +445,7 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
+                Assert.Fail($"Request failed error: {ex}");
             }
             catch (Exception ex)
             {
@@ -474,7 +474,7 @@ namespace Azure.Communication.CallingServer.Tests
 
             try
             {
-                string userId = GetFixedUserId("0000000e-6166-a217-80f5-8b3a0d0080c4");
+                string userId = GetUserId(USER_IDENTIFIER);
 
                 // Redirect Call
                 await RedirectCallOperation(callingServerClient, userId).ConfigureAwait(false);
@@ -483,7 +483,7 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
+                Assert.Fail($"Request failed error: {ex}");
             }
             catch (Exception ex)
             {
@@ -507,7 +507,7 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
+                Assert.Fail($"Request failed error: {ex}");
             }
             catch (Exception ex)
             {
@@ -549,7 +549,7 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
+                Assert.Fail($"Request failed error: {ex}");
             }
             catch (Exception ex)
             {
@@ -580,7 +580,7 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Fail($"Unexpected error: {ex}");
+                Assert.Fail($"Request failed error: {ex}");
             }
             catch (Exception ex)
             {
