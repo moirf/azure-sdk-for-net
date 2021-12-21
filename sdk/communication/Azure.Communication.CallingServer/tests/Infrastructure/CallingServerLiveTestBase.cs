@@ -47,7 +47,7 @@ namespace Azure.Communication.CallingServer.Tests
 
         protected const string TARGET_CALL_CONNECTION_ID = "41201300-4316-4094-b8f0-a2238937273b";
 
-        protected string GetTaretCallConnectionId()
+        protected string GetTargetCallConnectionId()
         {
             return TARGET_CALL_CONNECTION_ID;
         }

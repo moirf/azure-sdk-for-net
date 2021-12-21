@@ -211,7 +211,10 @@ namespace Azure.Communication.CallingServer.Tests
             catch (RequestFailedException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Pass($"Request failed error: {ex}");
+                if (ex.Status == 404)
+                {
+                    Assert.Pass($"Request failed error: {ex}");
+                }
             }
             catch (Exception ex)
             {

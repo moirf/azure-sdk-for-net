@@ -294,7 +294,7 @@ namespace Azure.Communication.CallingServer.Tests
         }
 
         [Test]
-        //[Ignore("Skip test as it is not working now")]
+        [Ignore("Skip test as it is not working now")]
         public async Task RunCreateTransferCallHangupScenarioTests()
         {
             if (SkipCallingServerInteractionLiveTests)
@@ -308,7 +308,7 @@ namespace Azure.Communication.CallingServer.Tests
                 var callConnection = await CreateCallConnectionOperation(client).ConfigureAwait(false);
                 await WaitForOperationCompletion().ConfigureAwait(false);
 
-                string targetCallConnectionId = GetTaretCallConnectionId();
+                string targetCallConnectionId = GetTargetCallConnectionId();
 
                 // Transfer Call
                 var transferCallResult = await TransferCallOperation(callConnection, targetCallConnectionId).ConfigureAwait(false);

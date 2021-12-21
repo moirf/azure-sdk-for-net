@@ -34,7 +34,6 @@ namespace Azure.Core.TestFramework
             AddJsonPathSanitizer("$..primaryConnectionString");
             AddJsonPathSanitizer("$..secondaryConnectionString");
             AddJsonPathSanitizer("$..connectionString");
-            AddJsonPathSanitizer("$..id");
             AddJsonPathSanitizer("$..callConnectionId");
             AddJsonPathSanitizer("$..rawId");
             AddJsonPathSanitizer("$..groupCallId");
