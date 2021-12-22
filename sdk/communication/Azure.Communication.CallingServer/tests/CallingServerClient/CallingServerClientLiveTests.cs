@@ -215,6 +215,10 @@ namespace Azure.Communication.CallingServer.Tests
                 {
                     Assert.Pass($"Request failed error: {ex}");
                 }
+                else
+                {
+                    Assert.Fail($"Request failed error with unmatched status code: {ex}");
+                }
             }
             catch (Exception ex)
             {

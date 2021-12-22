@@ -34,11 +34,6 @@ namespace Azure.Core.TestFramework
             AddJsonPathSanitizer("$..primaryConnectionString");
             AddJsonPathSanitizer("$..secondaryConnectionString");
             AddJsonPathSanitizer("$..connectionString");
-            AddJsonPathSanitizer("$..callConnectionId");
-            AddJsonPathSanitizer("$..rawId");
-            AddJsonPathSanitizer("$..groupCallId");
-            AddJsonPathSanitizer("$..serverCallId");
-            AddJsonPathSanitizer("$..recordingId");
         }
 
         private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
