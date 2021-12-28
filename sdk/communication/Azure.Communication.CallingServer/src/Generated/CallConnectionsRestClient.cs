@@ -62,7 +62,7 @@ namespace Azure.Communication.CallingServer
         /// <param name="audioGroupId"> The audio group id. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="callConnectionId"/> or <paramref name="audioGroupId"/> is null. </exception>
-        public async Task<Response<AudioGroupResult>> GetAudioGroupsAsync(string callConnectionId, string audioGroupId, CancellationToken cancellationToken = default)
+        public async Task<Response<AudioGroupResultInternal>> GetAudioGroupsAsync(string callConnectionId, string audioGroupId, CancellationToken cancellationToken = default)
         {
             if (callConnectionId == null)
             {
@@ -79,9 +79,9 @@ namespace Azure.Communication.CallingServer
             {
                 case 200:
                     {
-                        AudioGroupResult value = default;
+                        AudioGroupResultInternal value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = AudioGroupResult.DeserializeAudioGroupResult(document.RootElement);
+                        value = AudioGroupResultInternal.DeserializeAudioGroupResultInternal(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -94,7 +94,7 @@ namespace Azure.Communication.CallingServer
         /// <param name="audioGroupId"> The audio group id. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="callConnectionId"/> or <paramref name="audioGroupId"/> is null. </exception>
-        public Response<AudioGroupResult> GetAudioGroups(string callConnectionId, string audioGroupId, CancellationToken cancellationToken = default)
+        public Response<AudioGroupResultInternal> GetAudioGroups(string callConnectionId, string audioGroupId, CancellationToken cancellationToken = default)
         {
             if (callConnectionId == null)
             {
@@ -111,9 +111,9 @@ namespace Azure.Communication.CallingServer
             {
                 case 200:
                     {
-                        AudioGroupResult value = default;
+                        AudioGroupResultInternal value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = AudioGroupResult.DeserializeAudioGroupResult(document.RootElement);
+                        value = AudioGroupResultInternal.DeserializeAudioGroupResultInternal(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -1014,7 +1014,7 @@ namespace Azure.Communication.CallingServer
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("Content-Type", "application/json");
-            var model = new AudioGroupRequest(audioRoutingMode, targets.ToList());
+            var model = new AudioGroupRequestInternal(audioRoutingMode, targets.ToList());
             var content = new Utf8JsonRequestContent();
             content.JsonWriter.WriteObjectValue(model);
             request.Content = content;

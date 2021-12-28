@@ -7,23 +7,24 @@
 
 using System.Collections.Generic;
 using Azure.Communication;
+using Azure.Communication.CallingServer;
 using Azure.Core;
 
-namespace Azure.Communication.CallingServer
+namespace Azure.Communication.CallingServer.Models
 {
     /// <summary> The audio group result. </summary>
-    public partial class AudioGroupResult
+    internal partial class AudioGroupResultInternal
     {
-        /// <summary> Initializes a new instance of AudioGroupResult. </summary>
-        internal AudioGroupResult()
+        /// <summary> Initializes a new instance of AudioGroupResultInternal. </summary>
+        internal AudioGroupResultInternal()
         {
             Targets = new ChangeTrackingList<CommunicationIdentifierModel>();
         }
 
-        /// <summary> Initializes a new instance of AudioGroupResult. </summary>
+        /// <summary> Initializes a new instance of AudioGroupResultInternal. </summary>
         /// <param name="audioRoutingMode"> The audio routing mode. </param>
         /// <param name="targets"> The target identities that would be receivers in the audio group. </param>
-        internal AudioGroupResult(AudioRoutingMode? audioRoutingMode, IReadOnlyList<CommunicationIdentifierModel> targets)
+        internal AudioGroupResultInternal(AudioRoutingMode? audioRoutingMode, IReadOnlyList<CommunicationIdentifierModel> targets)
         {
             AudioRoutingMode = audioRoutingMode;
             Targets = targets;
