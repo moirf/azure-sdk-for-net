@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
 using System.Net;
 using Azure.Communication.Tests;
 using Azure.Core.TestFramework;
