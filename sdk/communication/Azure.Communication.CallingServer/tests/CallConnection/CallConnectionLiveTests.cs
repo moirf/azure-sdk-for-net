@@ -48,7 +48,7 @@ namespace Azure.Communication.CallingServer.Tests
                 await WaitForOperationCompletion().ConfigureAwait(false);
 
                 // Play Prompt Audio
-                await PlayAudioOperation(callConnection, true).ConfigureAwait(false);
+                await PlayAudioOperation(callConnection).ConfigureAwait(false);
                 await WaitForOperationCompletion().ConfigureAwait(false);
 
                 // Cancel Prompt Audio
@@ -176,6 +176,57 @@ namespace Azure.Communication.CallingServer.Tests
         }
 
         [Test]
+        public async Task RunCreateAddRemoveFromDefaultAudioGroupAddToDefaultAudioGroupRemoveHangupScenarioTests()
+        {
+            if (SkipCallingServerInteractionLiveTests)
+                Assert.Ignore("Skip callingserver interaction live tests flag is on.");
+
+            CallingServerClient client = CreateInstrumentedCallingServerClientWithConnectionString();
+
+            CallConnection callConnection = new CallConnection(null, null, null);
+
+            try
+            {
+                // Establish a Call
+                callConnection = await CreateCallConnectionOperation(client).ConfigureAwait(false);
+                await WaitForOperationCompletion().ConfigureAwait(false);
+
+                string userId = GetUserId(USER_IDENTIFIER);
+
+                // Add Participant
+                AddParticipantResult addParticipantResult = await AddParticipantOperation(callConnection, userId).ConfigureAwait(false);
+                Assert.NotNull(addParticipantResult);
+                await WaitForOperationCompletion().ConfigureAwait(false);
+
+                // Remove Participant from Default Audio Group
+                await RemoveParticipantFromDefaultAudioGroupOperation(callConnection, userId).ConfigureAwait(false);
+
+                // Add Participant To Default Audio Group
+                var addParticipantToDefaultAudioGroupResult = await AddParticipantToDefaultAudioGroupOperation(callConnection, userId).ConfigureAwait(false);
+                Assert.NotNull(addParticipantToDefaultAudioGroupResult);
+                await WaitForOperationCompletion().ConfigureAwait(false);
+
+                // Remove Participant
+                await RemoveParticipantOperation(callConnection, userId).ConfigureAwait(false);
+            }
+            catch (RequestFailedException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Assert.Fail($"Request failed error: {ex}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Assert.Fail($"Unexpected error: {ex}");
+            }
+            finally
+            {
+                // Hang up the Call, there is one call leg in this test case, hangup the call will also delete the call as the result.
+                await HangupOperation(callConnection).ConfigureAwait(false);
+            }
+        }
+
+        [Test]
         public async Task RunCreateKeepAliveHangupScenarioTests()
         {
             if (SkipCallingServerInteractionLiveTests)
@@ -250,8 +301,8 @@ namespace Azure.Communication.CallingServer.Tests
 
             try
             {
-                // Establish a Call
-                var callConnection = await CreateCallConnectionOperation(client).ConfigureAwait(false);
+               // Establish a Call
+               var callConnection = await CreateCallConnectionOperation(client).ConfigureAwait(false);
                 await WaitForOperationCompletion().ConfigureAwait(false);
 
                 string targetCallConnectionId = GetTargetCallConnectionId();
@@ -300,7 +351,7 @@ namespace Azure.Communication.CallingServer.Tests
                 Assert.AreEqual(getCallConnection.CallConnectionId, callConnection.CallConnectionId);
 
                 // Play Audio To Participant
-                var playAudioResult = await PlayAudioToParticipantOperation(callConnection, userId, true).ConfigureAwait(false);
+                var playAudioResult = await PlayAudioToParticipantOperation(callConnection, userId).ConfigureAwait(false);
                 string mediaOperationId = playAudioResult.OperationId;
                 await WaitForOperationCompletion().ConfigureAwait(false);
 
@@ -351,32 +402,22 @@ namespace Azure.Communication.CallingServer.Tests
                 Assert.NotNull(addParticipantResult);
                 await WaitForOperationCompletion().ConfigureAwait(false);
 
-                // Add Participant To Default Audio Group
-                var addParticipantToDefaultAudioGroupResult = await AddParticipantToDefaultAudioGroupOperation(callConnection, userId).ConfigureAwait(false);
-                Assert.NotNull(addParticipantToDefaultAudioGroupResult);
-                await WaitForOperationCompletion().ConfigureAwait(false);
-
                 // Creating List And Adding Participant
                 List<CommunicationUserIdentifier> participantList = new List<CommunicationUserIdentifier>();
                 participantList.Add(new CommunicationUserIdentifier(userId));
 
                 //Create Audio Group
-                var createAudioGroupResult = await CreateAudioGroupOperation(callConnection, participantList).ConfigureAwait(false);
-                string audioGroupId = createAudioGroupResult.AudioGroupId;
+                var createAudioRoutingResult = await CreateAudioGroupOperation(callConnection, participantList).ConfigureAwait(false);
+                string audioRoutingId = createAudioRoutingResult.AudioGroupId;
 
                 // Get Audio Group
-                var getAudioGroupgResult = await GetAudioGroupOperation(callConnection, audioGroupId).ConfigureAwait(false);
-                Assert.IsTrue(getAudioGroupgResult.AudioRoutingMode == AudioRoutingMode.Multicast);
-                Assert.NotNull(getAudioGroupgResult);
+                var getAudioRoutingResult = await GetAudioGroupOperation(callConnection, audioRoutingId).ConfigureAwait(false);
+                Assert.IsTrue(getAudioRoutingResult.AudioRoutingMode == AudioRoutingMode.Multicast);
+                Assert.NotNull(getAudioRoutingResult);
 
                 // Add Another Participant
                 AddParticipantResult addAnotherParticipantResult = await AddParticipantOperation(callConnection, anotherUserId).ConfigureAwait(false);
                 Assert.NotNull(addAnotherParticipantResult);
-                await WaitForOperationCompletion().ConfigureAwait(false);
-
-                // Add Another Participant To Default Audio Group
-                var addAnotherParticipantToDefaultAudioGroupResult = await AddParticipantToDefaultAudioGroupOperation(callConnection, anotherUserId).ConfigureAwait(false);
-                Assert.NotNull(addAnotherParticipantToDefaultAudioGroupResult);
                 await WaitForOperationCompletion().ConfigureAwait(false);
 
                 // Creating Another List And Adding Participant
@@ -384,20 +425,15 @@ namespace Azure.Communication.CallingServer.Tests
                 participantsList.Add(new CommunicationUserIdentifier(anotherUserId));
 
                 // Update Audio Group
-                await UpdateAudioGroupOperation(callConnection, audioGroupId, participantsList).ConfigureAwait(false);
+                await UpdateAudioGroupOperation(callConnection, audioRoutingId, participantsList).ConfigureAwait(false);
+
                 // Get Audio Group
-                var getUpdatedAudioGroupResult = await GetAudioGroupOperation(callConnection, audioGroupId).ConfigureAwait(false);
-                Assert.IsTrue(getUpdatedAudioGroupResult.AudioRoutingMode == AudioRoutingMode.Multicast);
-                Assert.NotNull(getUpdatedAudioGroupResult);
+                var getUpdatedAudioRoutingResult = await GetAudioGroupOperation(callConnection, audioRoutingId).ConfigureAwait(false);
+                Assert.IsTrue(getUpdatedAudioRoutingResult.AudioRoutingMode == AudioRoutingMode.Multicast);
+                Assert.NotNull(getAudioRoutingResult);
 
                 // Delete Audio Group
-                await DeleteAudioGroupOperation(callConnection, audioGroupId).ConfigureAwait(false);
-
-                // Remove First Added Participant from Default Audio Group
-                await RemoveParticipantFromDefaultAudioGroupOperation(callConnection, userId).ConfigureAwait(false);
-
-                // Remove Another Participant from Default Audio Group
-                await RemoveParticipantFromDefaultAudioGroupOperation(callConnection, anotherUserId).ConfigureAwait(false);
+                await DeleteAudioGroupOperation(callConnection, audioRoutingId).ConfigureAwait(false);
 
                 // Remove First Added Participant
                 await RemoveParticipantOperation(callConnection, userId).ConfigureAwait(false);
