@@ -407,13 +407,13 @@ namespace Azure.Communication.CallingServer.Tests
                 participantList.Add(new CommunicationUserIdentifier(userId));
 
                 //Create Audio Group
-                var createAudioRoutingResult = await CreateAudioGroupOperation(callConnection, participantList).ConfigureAwait(false);
-                string audioRoutingId = createAudioRoutingResult.AudioGroupId;
+                var createAudioGroupResult = await CreateAudioGroupOperation(callConnection, participantList).ConfigureAwait(false);
+                string audioGroupId = createAudioGroupResult.AudioGroupId;
 
                 // Get Audio Group
-                var getAudioRoutingResult = await GetAudioGroupOperation(callConnection, audioRoutingId).ConfigureAwait(false);
-                Assert.IsTrue(getAudioRoutingResult.AudioRoutingMode == AudioRoutingMode.Multicast);
-                Assert.NotNull(getAudioRoutingResult);
+                var getAudioGroupResult = await GetAudioGroupOperation(callConnection, audioGroupId).ConfigureAwait(false);
+                Assert.IsTrue(getAudioGroupResult.AudioRoutingMode == AudioRoutingMode.Multicast);
+                Assert.NotNull(getAudioGroupResult);
 
                 // Add Another Participant
                 AddParticipantResult addAnotherParticipantResult = await AddParticipantOperation(callConnection, anotherUserId).ConfigureAwait(false);
@@ -425,15 +425,15 @@ namespace Azure.Communication.CallingServer.Tests
                 participantsList.Add(new CommunicationUserIdentifier(anotherUserId));
 
                 // Update Audio Group
-                await UpdateAudioGroupOperation(callConnection, audioRoutingId, participantsList).ConfigureAwait(false);
+                await UpdateAudioGroupOperation(callConnection, audioGroupId, participantsList).ConfigureAwait(false);
 
                 // Get Audio Group
-                var getUpdatedAudioRoutingResult = await GetAudioGroupOperation(callConnection, audioRoutingId).ConfigureAwait(false);
-                Assert.IsTrue(getUpdatedAudioRoutingResult.AudioRoutingMode == AudioRoutingMode.Multicast);
-                Assert.NotNull(getAudioRoutingResult);
+                var getUpdatedAudioGroupResult = await GetAudioGroupOperation(callConnection, audioGroupId).ConfigureAwait(false);
+                Assert.IsTrue(getUpdatedAudioGroupResult.AudioRoutingMode == AudioRoutingMode.Multicast);
+                Assert.NotNull(getUpdatedAudioGroupResult);
 
                 // Delete Audio Group
-                await DeleteAudioGroupOperation(callConnection, audioRoutingId).ConfigureAwait(false);
+                await DeleteAudioGroupOperation(callConnection, audioGroupId).ConfigureAwait(false);
 
                 // Remove First Added Participant
                 await RemoveParticipantOperation(callConnection, userId).ConfigureAwait(false);
